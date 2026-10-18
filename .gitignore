@@ -4,19 +4,33 @@ venv/
 ENV/
 env/
 
-# Byte-compiled / optimized files
+# Byte-compiled / cache files
 __pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+
+# Environment variables & secrets (ZERO SECRETS POLICY)
+.env
+.env.*
+!.env.example
+!secret/.env.example
+*.key
+*.pem
+*.crt
+secret/.env
+secret/*.key
+secret/*.pem
+secret/*.crt
 
 # Distribution / packaging
 build/
 dist/
 *.egg-info/
 
-# Environment variables & secrets
-.env
-.env.local
+# Temporary files & logs
+scratch/
+*.log
 
 # IDEs & OS metadata
 .vscode/

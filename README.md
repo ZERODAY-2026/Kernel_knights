@@ -76,12 +76,45 @@ Ordinary citizens frequently sign rental agreements, employment contracts, and s
    ```
 
 ### Running the Application
-1. Ensure Ollama is active locally (`http://localhost:11434`).
-2. Start the Streamlit application:
+
+1. Ensure Ollama is active locally (`http://127.0.0.1:11434`) with the model loaded:
+   ```bash
+   ollama run gemma4:e4b
+   ```
+
+2. **Option A: FastAPI + Web UI (Recommended)**
+   Starts the local REST server and serves the responsive single-page web UI:
+   ```bash
+   python api.py
+   ```
+   Open **`http://127.0.0.1:8000`** in your browser.
+
+3. **Option B: Streamlit Dashboard**
+   Starts the multi-column Streamlit application:
    ```bash
    streamlit run app.py
    ```
-3. Access the dashboard in your browser at `http://localhost:8501`.
+   Open **`http://localhost:8501`** in your browser.
+
+4. **Run Automated Test Suite:**
+   ```bash
+   python -m pytest test_files/test_pipeline.py
+   ```
+
+---
+
+## 📁 Repository Structure
+```text
+├── frontend/             # Single-page web UI (HTML5/CSS/JS) & Streamlit dashboard
+├── backend/              # FastAPI REST server, triage engine, and Ollama integration
+├── secret/               # Zero-egress privacy docs & .env.example template (no secrets stored)
+├── test_files/           # Unit tests, sample contracts, and red-team injection tests
+├── test_results/         # Evaluation reports and benchmark execution JSON results
+├── requirements.txt      # Pinned Python package dependencies
+├── README.md             # Project overview, setup, and performance benchmarks
+├── api.py                # Root launcher for the FastAPI server
+└── app.py                # Root launcher for the Streamlit dashboard
+```
 
 ---
 
@@ -89,3 +122,27 @@ Ordinary citizens frequently sign rental agreements, employment contracts, and s
 * **Verifiable Quotations:** Every quoted clause is verified directly against extracted source text to eliminate hallucination.
 * **Separation of Concerns:** Clearly distinguishes explicit contract statements from risk warnings and ambiguity notices.
 * **Lawyer Escalation:** Prominently flags high-risk penalties or ambiguous terms requiring formal legal consultation.
+
+---
+
+## ⚡ Performance Benchmarks, Hardware & Memory Telemetry
+
+### Tested Hardware Profile
+* **CPU:** 11th Gen Intel(R) Core(TM) i5-11400H @ 2.70GHz (6 Cores, 12 Threads)
+* **System RAM:** 16 GB (15.74 GB physical)
+* **GPU:** NVIDIA GeForce RTX 3050 Laptop GPU (4 GB VRAM) + Intel(R) UHD Graphics
+* **OS:** Windows 11 (64-bit)
+
+### Runtime Telemetry (`ollama ps`)
+```text
+NAME          ID              SIZE      PROCESSOR    CONTEXT    RUNNER      UNTIL               
+gemma4:e4b    dc35e8d9c606    354 MB    100% GPU     4096       llamacpp    30 minutes from now
+```
+
+### Speed & Chunking Benchmarks
+* **Model Configuration:** `gemma4:e4b` (Q4_K_M quantization) with `think=False`, `keep_alive="30m"`, and `num_ctx=4096`.
+* **Throughput:**
+  * **Baseline (with thinking mode & unoptimized keep-alive):** ~90 seconds per chunk.
+  * **Optimized (thinking disabled, persistent context):** ~51.1 seconds per chunk (153.4s across 3 full structured clause evaluations in `inj2.json`).
+* **Memory Footprint:** Resident Ollama VRAM allocation is ~354 MB on the GPU, with minimal host RAM overhead during PyMuPDF parsing.
+

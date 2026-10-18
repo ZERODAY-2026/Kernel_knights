@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Private Legal Triage</title>
+<style>
+:root{--bg:#f4f6f9;--card:#fff;--ink:#1b2230;--mute:#5a6578;--line:#dde2ea;--accent:#2457d6;--accentbg:#e8eefc;
+--ok:#17734a;--okbg:#e2f4ea;--warn:#8a5a00;--warnbg:#fff1d2;--bad:#a12222;--badbg:#fde7e7;--mark:#ffef9a}
+@media (prefers-color-scheme:dark){:root{--bg:#11151b;--card:#1a2029;--ink:#e8ecf2;--mute:#9aa6b8;--line:#2c3544;
+--accent:#86a9ff;--accentbg:#1c2745;--ok:#74d6a4;--okbg:#12301f;--warn:#f1c76f;--warnbg:#3a2d10;--bad:#ff9d9d;--badbg:#3a1717;--mark:#5c4e00}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 20px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+header h1{font-size:18px;margin:0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--okbg);color:var(--ok);font-weight:600}
+.banner{background:var(--warnbg);color:var(--warn);padding:9px 20px;font-size:13px;border-bottom:1px solid var(--line)}
+main{max-width:1100px;margin:0 auto;padding:20px;display:grid;gap:18px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.panel h2{font-size:16px;margin:0 0 10px}
+#drop{border:2px dashed var(--line);border-radius:12px;padding:34px 16px;text-align:center;cursor:pointer;color:var(--mute)}
+#drop:hover,#drop.over{border-color:var(--accent);background:var(--accentbg);color:var(--ink)}
+#drop b{color:var(--ink)}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px 14px;border-radius:8px}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+button:disabled{opacity:.5;cursor:not-allowed}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:10px 0 6px}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .4s}
+.muted{color:var(--mute);font-size:13px}
+.err{background:var(--badbg);color:var(--bad);padding:10px 14px;border-radius:8px;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
+.stat{background:var(--bg);border-radius:8px;padding:10px 12px}
+.stat b{display:block;font-size:20px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-size:12px;padding:3px 9px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.nav{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 0}
+.nav a{font-size:12px;padding:3px 9px;border-radius:6px;border:1px solid var(--line);color:var(--ink);text-decoration:none;background:var(--bg)}
+.nav a.flag{border-color:var(--bad);color:var(--bad)}
+.card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.card.flag{border-left-color:var(--bad)}
+.card h3{margin:0 0 8px;font-size:16px}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.badge{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
+.b-ok{background:var(--okbg);color:var(--ok)}.b-warn{background:var(--warnbg);color:var(--warn)}.b-bad{background:var(--badbg);color:var(--bad)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+@media (max-width:760px){.cols{grid-template-columns:1fr}}
+.box{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.box h4{margin:0 0 4px;font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--mute)}
+.box.interp{background:var(--warnbg)}
+blockquote{margin:6px 0;padding:6px 10px;border-left:3px solid var(--ok);background:var(--okbg);font-size:14px}
+details{margin-top:8px}summary{cursor:pointer;color:var(--accent);font-size:13px}
+pre.src{white-space:pre-wrap;font:13px/1.5 ui-monospace,Consolas,monospace;background:var(--bg);padding:10px;border-radius:8px;margin:8px 0 0}
+mark{background:var(--mark);color:inherit;padding:0 2px;border-radius:3px}
+.only-flagged .card:not(.flag){display:none}
+.qa{display:flex;gap:8px;margin-bottom:12px}
+.qa input{flex:1;font:inherit;padding:9px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.ans{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px}
+.ans.answered{border-left:5px solid var(--ok)}.ans.document_silent{border-left:5px solid var(--warn)}.ans.refused{border-left:5px solid var(--bad)}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <h1>Private Legal Triage</h1>
+  <span class="pill">Runs on this device only &middot; 127.0.0.1 &middot; no external requests</span>
+</header>
+<div class="banner">Preliminary document understanding only. This is not legal advice and cannot decide whether anything is valid or enforceable. For a verdict, consult a qualified lawyer.</div>
+
+<main>
+  <section class="panel" id="uploadPanel">
+    <h2>1. Choose a document</h2>
+    <div id="drop"><b>Drop a PDF or text file here</b> or click to browse<br><span class="muted">Text-based .pdf or .txt, up to 20 MB. Processed locally; nothing is uploaded to the internet.</span></div>
+    <input type="file" id="file" accept=".pdf,.txt" class="hidden">
+    <div id="progress" class="hidden">
+      <div id="progText" style="font-weight:600"></div>
+      <div class="bar"><i id="progBar"></i></div>
+      <div class="muted" id="progSub"></div>
+    </div>
+    <div id="error" class="err hidden"></div>
+  </section>
+
+  <section class="panel hidden" id="summaryPanel">
+    <div class="toolbar"><h2>Document overview</h2>
+      <div><button id="exportBtn">Export JSON</button> <button id="clearBtn">Clear document</button></div></div>
+    <div class="stats" id="stats"></div>
+    <div class="muted">Amounts found</div><div class="chips" id="amounts"></div>
+    <div class="muted" style="margin-top:10px">Dates found</div><div class="chips" id="dates"></div>
+    <div class="muted" style="margin-top:10px">Commonly expected clauses not found by a keyword scan (a rough check, not a legal conclusion)</div><div class="chips" id="missing"></div>
+  </section>
+
+  <section class="hidden" id="resultsPanel">
+    <div class="toolbar" style="margin-bottom:6px">
+      <h2 style="margin:0">2. Clause-by-clause analysis</h2>
+      <label class="muted"><input type="checkbox" id="onlyFlagged"> Show only clauses recommended for lawyer review</label>
+    </div>
+    <div class="nav" id="nav"></div>
+    <div id="cards" style="margin-top:14px"></div>
+  </section>
+
+  <section class="panel hidden" id="qaPanel">
+    <h2>3. Ask a question about this document</h2>
+    <div class="qa"><input id="q" placeholder='e.g. "Can I sublet?"  or  "How much notice do I need to give?"'><button class="primary" id="askBtn">Ask</button></div>
+    <div class="muted" style="margin-bottom:10px">Answers use only this document. If the document is silent, the tool says so. Verdict questions (legal, valid, enforceable) are declined.</div>
+    <div id="answers"></div>
+  </section>
+</main>
+
+<script>
+var $ = function(s){return document.querySelector(s);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+var rendered = 0, pollTimer = null, allClauses = [], summary = null, busy = false;
+
+/* ---------- upload ---------- */
+var drop = $('#drop'), fileIn = $('#file');
+drop.addEventListener('click', function(){ if(!busy) fileIn.click(); });
+['dragover','dragenter'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('over');});});
+['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('over');});});
+drop.addEventListener('drop', function(e){ if(!busy && e.dataTransfer.files[0]) start(e.dataTransfer.files[0]); });
+fileIn.addEventListener('change', function(){ if(fileIn.files[0]) start(fileIn.files[0]); fileIn.value=''; });
+
+function showError(msg){ var e=$('#error'); e.textContent=msg; e.classList.remove('hidden'); }
+function hideError(){ $('#error').classList.add('hidden'); }
+function setBusy(b){ busy=b; drop.style.opacity = b ? .5 : 1; }
+
+function resetResults(){
+  clearTimeout(pollTimer); rendered=0; allClauses=[]; summary=null;
+  $('#cards').innerHTML=''; $('#nav').innerHTML=''; $('#answers').innerHTML='';
+  ['#summaryPanel','#resultsPanel','#qaPanel','#progress'].forEach(function(s){$(s).classList.add('hidden');});
+  hideError();
+}
+
+async function start(file){
+  if(!/\.(pdf|txt)$/i.test(file.name)) { showError('Please choose a .pdf or .txt file.'); return; }
+  if(file.size > 20*1024*1024) { showError('File is larger than 20 MB.'); return; }
+  resetResults(); setBusy(true);
+  $('#progress').classList.remove('hidden');
+  $('#progText').textContent = 'Reading ' + file.name + '...';
+  $('#progBar').style.width = '3%'; $('#progSub').textContent = '';
+  var fd = new FormData(); fd.append('file', file);
+  try{
+    var r = await fetch('/api/analyze', {method:'POST', body:fd});
+    if(!r.ok){ var j = await r.json().catch(function(){return {};}); throw new Error(j.detail || r.statusText); }
+    var data = await r.json(); poll(data.job_id);
+  }catch(e){ setBusy(false); $('#progress').classList.add('hidden'); showError(e.message); }
+}
+
+function poll(id){
+  clearTimeout(pollTimer);
+  pollTimer = setTimeout(async function(){
+    try{
+      var r = await fetch('/api/status/' + id);
+      if(!r.ok) throw new Error('The analysis job was lost. Please upload the file again.');
+      var s = await r.json();
+      updateProgress(s); renderNew(s.clauses);
+      if(s.status === 'running') return poll(id);
+      setBusy(false);
+      if(s.status === 'error'){ $('#progress').classList.add('hidden'); showError(s.error || 'Analysis failed.'); return; }
+      if(s.status === 'done') finish(s);
+    }catch(e){ setBusy(false); $('#progress').classList.add('hidden'); showError(e.message); }
+  }, 1200);
+}
+
+function fmt(sec){ sec=Math.round(sec); return sec<60 ? sec+'s' : Math.floor(sec/60)+'m '+(sec%60)+'s'; }
+function updateProgress(s){
+  if(!s.total){ $('#progText').textContent='Reading document...'; return; }
+  $('#progBar').style.width = Math.max(5, Math.round(100*s.done/s.total)) + '%';
+  $('#progText').textContent = 'Analyzing clause ' + Math.min(s.done+1, s.total) + ' of ' + s.total;
+  var sub = 'Elapsed ' + fmt(s.elapsed);
+  if(s.done > 0 && s.done < s.total) sub += ' · about ' + fmt(s.elapsed/s.done*(s.total-s.done)) + ' remaining';
+  $('#progSub').textContent = sub + ' · the model runs on this machine, so this can take a while';
+}
+
+/* ---------- rendering ---------- */
+function highlight(src, quotes){
+  var ranges = [];
+  (quotes||[]).forEach(function(q){
+    var words = String(q).trim().split(/\s+/).filter(Boolean).map(function(w){return w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');});
+    if(!words.length) return;
+    var m = new RegExp(words.join('\\s+'),'i').exec(src);
+    if(m) ranges.push([m.index, m.index+m[0].length]);
+  });
+  ranges.sort(function(a,b){return a[0]-b[0];});
+  var out='', pos=0;
+  ranges.forEach(function(r){ if(r[0]<pos) return; out += esc(src.slice(pos,r[0])) + '<mark>' + esc(src.slice(r[0],r[1])) + '</mark>'; pos=r[1]; });
+  return out + esc(src.slice(pos));
+}
+function badge(t,c){ return '<span class="badge '+c+'">'+esc(t)+'</span>'; }
+
+function cardHTML(c,i){
+  var failed = c.what_the_text_states === undefined;
+  var flag = !!c.requires_lawyer_escalation || failed;
+  var b = '';
+  b += c.grounded ? badge('Quotes verified against source','b-ok') : badge('UNVERIFIED: no quote could be checked','b-bad');
+  if(c.requires_lawyer_escalation) b += badge('Lawyer review recommended','b-bad');
+  if(c.is_ambiguous) b += badge('Ambiguous','b-warn');
+  if(c.jurisdiction_dependent) b += badge('Depends on local law','b-warn');
+  var h = '<div class="card'+(flag?' flag':'')+'" id="clause'+i+'"><h3>'+(i+1)+'. '+esc(c.clause_topic||'Untitled section')+'</h3><div class="badges">'+b+'</div>';
+  if(!failed){
+    h += '<div>'+esc(c.plain_language_summary)+'</div>';
+    h += '<div class="cols"><div class="box"><h4>What the text states</h4>'+esc(c.what_the_text_states)+'</div>'
+       + '<div class="box interp"><h4>Possible interpretation or concern (the model\u2019s reading, not stated in the text)</h4>'+esc(c.possible_interpretation_or_concern)+'</div></div>';
+    if(c.obligations_rights_penalties) h += '<div class="box" style="margin-bottom:10px"><h4>Obligations, rights and penalties</h4>'+esc(c.obligations_rights_penalties)+'</div>';
+    if(c.requires_lawyer_escalation && c.escalation_reason && c.escalation_reason.toLowerCase()!=='none')
+      h += '<div class="box" style="border-color:var(--bad)"><h4>Why a lawyer should look at this</h4>'+esc(c.escalation_reason)+'</div>';
+    var qs = c.verifiable_quotes||[];
+    h += '<div style="margin-top:10px"><div class="muted"><b>Verbatim quotes found in the document</b></div>';
+    h += qs.length ? qs.map(function(q){return '<blockquote>'+esc(q)+'</blockquote>';}).join('') : '<div class="muted">None could be verified.</div>';
+    h += '</div>';
+    if((c.dropped_unverified_quotes||[]).length) h += '<div class="muted">'+c.dropped_unverified_quotes.length+' model-supplied quote(s) were not found in the text and were removed.</div>';
+  }
+  if(c.warnings) h += '<div class="box" style="margin-top:10px;border-color:var(--warn)"><h4>Warnings (model notes plus automatic checks)</h4>'+esc(c.warnings)+'</div>';
+  if(c.source_text) h += '<details><summary>Show source text (verified quotes highlighted)</summary><pre class="src">'+highlight(c.source_text, c.verifiable_quotes)+'</pre></details>';
+  return h + '</div>';
+}
+
+function renderNew(clauses){
+  if(!clauses || clauses.length <= rendered) return;
+  $('#resultsPanel').classList.remove('hidden');
+  for(var i=rendered;i<clauses.length;i++){
+    $('#cards').insertAdjacentHTML('beforeend', cardHTML(clauses[i], i));
+    var c = clauses[i], fl = c.requires_lawyer_escalation || c.what_the_text_states===undefined;
+    $('#nav').insertAdjacentHTML('beforeend','<a href="#clause'+i+'" class="'+(fl?'flag':'')+'">'+(i+1)+'. '+esc((c.clause_topic||'Section').slice(0,28))+'</a>');
+  }
+  rendered = clauses.length; allClauses = clauses;
+}
+
+function chips(el, arr, empty){
+  $(el).innerHTML = arr && arr.length ? arr.map(function(x){return '<span class="chip">'+esc(x)+'</span>';}).join('') : '<span class="muted">'+esc(empty)+'</span>';
+}
+
+function finish(s){
+  summary = s.result; allClauses = s.clauses;
+  $('#progText').textContent = 'Analysis complete'; $('#progBar').style.width='100%';
+  $('#progSub').textContent = 'Finished in ' + fmt(s.elapsed) + ' on this device.';
+  var esc_n = s.clauses.filter(function(c){return c.requires_lawyer_escalation;}).length;
+  var ver_n = s.clauses.filter(function(c){return c.grounded;}).length;
+  $('#stats').innerHTML =
+    '<div class="stat"><b>'+summary.chunks+'</b>sections analyzed</div>' +
+    '<div class="stat"><b>'+esc_n+'</b>recommended for lawyer review</div>' +
+    '<div class="stat"><b>'+ver_n+'/'+summary.chunks+'</b>with verified quotes</div>' +
+    '<div class="stat"><b>'+fmt(summary.seconds)+'</b>total time</div>' +
+    '<div class="stat"><b style="font-size:15px">'+esc(summary.model)+'</b>local model</div>';
+  chips('#amounts', summary.amounts_found, 'None detected');
+  chips('#dates', summary.dates_found, 'None detected');
+  chips('#missing', summary.not_found_by_keyword_check, 'All common clause types were mentioned');
+  $('#summaryPanel').classList.remove('hidden');
+  $('#qaPanel').classList.remove('hidden');
+}
+
+$('#onlyFlagged').addEventListener('change', function(){ $('#cards').classList.toggle('only-flagged', this.checked); });
+
+/* ---------- Q&A ---------- */
+var LABEL = {answered:['Answered from the document','b-ok'], document_silent:['The document does not address this','b-warn'], refused:['Declined: legal verdict','b-bad']};
+async function askQ(){
+  var q = $('#q').value.trim(); if(!q) return;
+  var btn = $('#askBtn'); btn.disabled = true; btn.textContent = 'Thinking...';
+  try{
+    var r = await fetch('/api/ask', {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q})});
+    var d = await r.json();
+    if(!r.ok) throw new Error(d.detail || r.statusText);
+    var l = LABEL[d.status] || [d.status,'b-warn'];
+    var h = '<div class="ans '+esc(d.status)+'"><div><b>Q: '+esc(d.question)+'</b></div><div style="margin:6px 0">'+badge(l[0],l[1])+'</div><div>'+esc(d.answer)+'</div>';
+    (d.quotes||[]).forEach(function(x){ h += '<blockquote>'+esc(x)+'</blockquote>'; });
+    if(d.caveats) h += '<div class="muted" style="margin-top:6px">Model note (not verified against the text): '+esc(d.caveats)+'</div>';
+    h += '</div>';
+    $('#answers').insertAdjacentHTML('afterbegin', h);
+    $('#q').value = '';
+  }catch(e){
+    $('#answers').insertAdjacentHTML('afterbegin','<div class="err">'+esc(e.message)+'</div>');
+  }finally{ btn.disabled=false; btn.textContent='Ask'; }
+}
+$('#askBtn').addEventListener('click', askQ);
+$('#q').addEventListener('keydown', function(e){ if(e.key==='Enter') askQ(); });
+
+/* ---------- export / clear ---------- */
+$('#exportBtn').addEventListener('click', function(){
+  var blob = new Blob([JSON.stringify({summary:summary, clauses:allClauses}, null, 2)], {type:'application/json'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'legal_triage_result.json';
+  document.body.appendChild(a); a.click(); a.remove();
+});
+$('#clearBtn').addEventListener('click', async function(){
+  await fetch('/api/clear', {method:'POST'}); resetResults(); setBusy(false);
+});
+</script>
+</body>
+</html>

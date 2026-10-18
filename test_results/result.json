@@ -1,0 +1,150 @@
+{
+  "disclaimer": "Preliminary document understanding only. This is not legal advice and cannot decide whether anything is valid or enforceable.",
+  "model": "gemma4:e4b",
+  "seconds": 569.1,
+  "chunks": 7,
+  "amounts_found": [
+    "$1,200",
+    "$50"
+  ],
+  "dates_found": [],
+  "not_found_by_keyword_check": [
+    "renewal / term",
+    "liability / indemnity",
+    "confidentiality"
+  ],
+  "clauses": [
+    {
+      "clause_topic": "Document Title/Identification",
+      "what_the_text_states": "The text is the title of a document.",
+      "plain_language_summary": "This excerpt is only the title of a lease agreement. It does not contain any terms or conditions.",
+      "obligations_rights_penalties": "None stated.",
+      "possible_interpretation_or_concern": "There are no terms to interpret.",
+      "verifiable_quotes": [
+        "RESIDENTIAL LEASE AGREEMENT"
+      ],
+      "is_ambiguous": false,
+      "jurisdiction_dependent": false,
+      "requires_lawyer_escalation": false,
+      "escalation_reason": "none",
+      "warnings": "This excerpt is only a title and does not contain any substantive clauses or terms.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "RESIDENTIAL LEASE AGREEMENT"
+    },
+    {
+      "clause_topic": "Parties and Lease Term",
+      "what_the_text_states": "The agreement is between Apex Properties LLC (Landlord) and Jane Doe (Tenant). The property is 123 Oak Street, Suite 4B. The lease starts on November 1, 2026, and continues month-to-month until it is terminated.",
+      "plain_language_summary": "This document sets up a month-to-month rental agreement. The lease starts in November 2026. The landlord is Apex Properties LLC, and the tenant is Jane Doe.",
+      "obligations_rights_penalties": "This excerpt only defines the parties and the duration of the lease. It does not mention specific obligations, rights, or penalties.",
+      "possible_interpretation_or_concern": "Since the lease is month-to-month, either party can end it. However, this excerpt does not specify how much notice must be given to terminate the agreement.",
+      "verifiable_quotes": [
+        "This Lease Agreement is entered into between Landlord (Apex Properties LLC) and Tenant (Jane Doe)",
+        "The term shall commence on November 1, 2026 and continue month-to-month until terminated."
+      ],
+      "is_ambiguous": true,
+      "jurisdiction_dependent": true,
+      "requires_lawyer_escalation": true,
+      "escalation_reason": "Unclear termination notice requirements.",
+      "warnings": "The rules for terminating a month-to-month lease (such as required notice periods) often depend on local or state law. This document does not specify those rules.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "1. TERM AND PARTIES. This Lease Agreement is entered into between Landlord (Apex Properties LLC) and Tenant (Jane Doe) for the premises located at 123 Oak Street, Suite 4B. The term shall commence on November 1, 2026 and continue month-to-month until terminated."
+    },
+    {
+      "clause_topic": "Rent amount, due date, and late fee structure",
+      "what_the_text_states": "The tenant must pay $1,200 monthly rent. This payment is due on the first day of every month. A $50 late charge applies if the rent is not received by the landlord within five days after the due date.",
+      "plain_language_summary": "You must pay $1,200 on the first of the month. If you pay after five days, a $50 fee will be added.",
+      "obligations_rights_penalties": "Tenant obligation to pay rent; Landlord right to assess a late fee.",
+      "possible_interpretation_or_concern": "The enforceability of the $50 late fee may depend on local landlord-tenant laws. Some jurisdictions have limits on how much a late fee can be.",
+      "verifiable_quotes": [
+        "Tenant shall pay monthly rent of $1,200 due on the first day of each calendar month.",
+        "A late charge of $50 shall be assessed if rent is not received by the Landlord within five (5) days after the due date."
+      ],
+      "is_ambiguous": true,
+      "jurisdiction_dependent": true,
+      "requires_lawyer_escalation": true,
+      "escalation_reason": "Jurisdiction-specific issues regarding the enforceability of the late fee.",
+      "warnings": "The enforceability of the late fee ($50) depends on local laws. I am not a lawyer and cannot tell you if this clause is legal or valid.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "2. RENT AND PAYMENT. Tenant shall pay monthly rent of $1,200 due on the first day of each calendar month. A late charge of $50 shall be assessed if rent is not received by the Landlord within five (5) days after the due date."
+    },
+    {
+      "clause_topic": "Security Deposit and Penalties",
+      "what_the_text_states": "The Tenant must deposit $1,200. This money is for damages. If the Tenant breaks the lease or ends it early without 60 days' written notice, the entire deposit is forfeited right away. This forfeiture is called liquidated damages.",
+      "plain_language_summary": "You must pay a $1,200 security deposit. If you violate the lease or move out early without giving 60 days' notice, you will lose the entire $1,200 deposit. The lease calls this loss 'liquidated damages.'",
+      "obligations_rights_penalties": "Penalty (Forfeiture of Deposit)",
+      "possible_interpretation_or_concern": "The term 'liquidated damages' means the parties agreed on a specific amount in advance for a breach. However, courts sometimes invalidate these clauses if the amount is seen as a punishment rather than a reasonable estimate of the actual loss.",
+      "verifiable_quotes": [
+        "Tenant shall deposit $1,200 as security against damages.",
+        "the entire security deposit shall be forfeited immediately as liquidated damages."
+      ],
+      "is_ambiguous": true,
+      "jurisdiction_dependent": true,
+      "requires_lawyer_escalation": true,
+      "escalation_reason": "The clause imposes a severe penalty (total forfeiture of the deposit) and the enforceability of 'liquidated damages' depends heavily on local landlord-tenant law.",
+      "warnings": "I am not a lawyer. I cannot give legal advice. The enforceability of this clause depends on the laws of your specific jurisdiction.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "3. SECURITY DEPOSIT AND PENALTIES. Tenant shall deposit $1,200 as security against damages. If Tenant breaches any condition of this lease or terminates early without sixty (60) days prior written notice, the entire security deposit shall be forfeited immediately as liquidated damages."
+    },
+    {
+      "clause_topic": "Subletting and Assignment Restrictions",
+      "what_the_text_states": "The tenant cannot sublet the property or assign the agreement (in whole or in part) without the landlord's prior written consent. If a sublease is unauthorized, it is considered void and can lead to immediate eviction.",
+      "plain_language_summary": "You must get written permission from the landlord before you can let someone else live there or transfer your lease. If you do this without permission, the agreement is void, and you could be evicted immediately.",
+      "obligations_rights_penalties": "This clause restricts the tenant's right to sublet or assign the lease. The penalty for violating this clause is immediate eviction.",
+      "possible_interpretation_or_concern": "The landlord has complete control over whether you can sublet or assign the lease. Failure to obtain written consent beforehand is a serious breach of the contract.",
+      "verifiable_quotes": [
+        "Tenant shall not sublet the premises or assign this agreement in whole or in part without the prior express written consent of the Landlord.",
+        "Any unauthorized sublease shall be deemed null and void and grounds for immediate eviction."
+      ],
+      "is_ambiguous": false,
+      "jurisdiction_dependent": false,
+      "requires_lawyer_escalation": true,
+      "escalation_reason": "Immediate eviction risk and jurisdiction-specific eviction laws.",
+      "warnings": "I am not a lawyer. This analysis is for informational purposes only and does not constitute legal advice. The enforceability of eviction depends entirely on local laws.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "4. SUBLETTING AND ASSIGNMENT. Tenant shall not sublet the premises or assign this agreement in whole or in part without the prior express written consent of the Landlord. Any unauthorized sublease shall be deemed null and void and grounds for immediate eviction."
+    },
+    {
+      "clause_topic": "Termination of Tenancy",
+      "what_the_text_states": "Either party can end the tenancy by giving written notice at least 30 days before the desired date. The landlord can end the tenancy immediately if rent is not paid or if the lease rules are broken.",
+      "plain_language_summary": "This section explains how the tenancy can be ended. Both you and the landlord must give 30 days' written notice to end the lease normally. However, the landlord has the right to end the lease immediately if you fail to pay rent or break any other rule in the lease.",
+      "obligations_rights_penalties": "The excerpt outlines the rights of both parties to terminate the agreement under specific conditions.",
+      "possible_interpretation_or_concern": "The phrase 'breach of lease covenants' is broad. It means breaking any rule or promise made in the lease. The landlord's right to immediate termination is much faster than the standard 30-day notice period.",
+      "verifiable_quotes": [
+        "Either party may terminate this tenancy by delivering written notice at least thirty (30) days prior to the desired end date.",
+        "Landlord reserves the right to terminate immediately for non-payment of rent or breach of lease covenants."
+      ],
+      "is_ambiguous": true,
+      "jurisdiction_dependent": true,
+      "requires_lawyer_escalation": true,
+      "escalation_reason": "Jurisdiction-specific issues regarding termination rights and the definition of 'breach of lease covenants'.",
+      "warnings": "The enforceability of these termination clauses depends heavily on local landlord-tenant laws. The term 'breach of lease covenants' is broad and its specific meaning may vary by jurisdiction.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "5. TERMINATION. Either party may terminate this tenancy by delivering written notice at least thirty (30) days prior to the desired end date. Landlord reserves the right to terminate immediately for non-payment of rent or breach of lease covenants."
+    },
+    {
+      "clause_topic": "Governing Law and Dispute Resolution",
+      "what_the_text_states": "The agreement must follow the laws of California. Any disagreements must be handled in the municipal court of the county where the property is located.",
+      "plain_language_summary": "This clause specifies that California law controls the agreement. It also dictates that if a dispute arises, the case must be filed in the municipal court of the county where the property is located.",
+      "obligations_rights_penalties": "None stated.",
+      "possible_interpretation_or_concern": "The location of the premises determines which court must hear the dispute. This could require parties to travel to a specific county.",
+      "verifiable_quotes": [
+        "This agreement shall be governed by and construed under the laws of the State of California.",
+        "Any disputes arising hereunder shall be resolved in the municipal court of the county in which the premises are situated."
+      ],
+      "is_ambiguous": true,
+      "jurisdiction_dependent": true,
+      "requires_lawyer_escalation": true,
+      "escalation_reason": "Unclear wording or jurisdiction-specific issues (the location of the premises is not defined in the excerpt).",
+      "warnings": "The outcome of the dispute resolution depends entirely on the location of the 'premises,' which is not specified here. Because the court location is dependent on external facts, this clause is jurisdiction-dependent.",
+      "dropped_unverified_quotes": [],
+      "grounded": true,
+      "source_text": "6. GOVERNING LAW. This agreement shall be governed by and construed under the laws of the State of California. Any disputes arising hereunder shall be resolved in the municipal court of the county in which the premises are situated."
+    }
+  ]
+}
