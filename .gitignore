@@ -1,38 +1,41 @@
-# Python virtual environments
-.venv/
-venv/
-ENV/
-env/
-
-# Byte-compiled / cache files
+# Byte-compiled / optimized / cache files
 __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
 
-# Environment variables & secrets (ZERO SECRETS POLICY)
+# Environments & Virtualenvs
+.venv/
+venv/
+ENV/
+env/
 .env
 .env.*
 !.env.example
-!secret/.env.example
-*.key
-*.pem
-*.crt
-secret/.env
-secret/*.key
-secret/*.pem
-secret/*.crt
+
+# Test outputs & evaluation dumps
+result*.json
+offline.json
+inj*.json
+netcheck.txt
+*.log
+
+# Sensitive documents (never commit real personal or client contracts)
+*.pdf
+!samples/*.pdf
+*.docx
+*.doc
+*.txt
+!samples/*.txt
+!tests/*.txt
+!requirements.txt
 
 # Distribution / packaging
 build/
 dist/
 *.egg-info/
 
-# Temporary files & logs
-scratch/
-*.log
-
-# IDEs & OS metadata
+# IDE and OS files
 .vscode/
 .idea/
 .DS_Store

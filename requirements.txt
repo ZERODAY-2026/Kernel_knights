@@ -1,13 +1,14 @@
-streamlit
-PyMuPDF
-ollama
-pydantic
+# Minimal dependencies for Private Legal Document Triage Agent
+# Note: These specify minimum verified versions (>=).
+# To pin exact versions installed in your virtual environment, run:
+#   pip freeze > requirements.lock
+# or:
+#   pip freeze > requirements.txt
 
 ollama>=0.5.0
-pydantic>=2.7
-pypdf>=4.0
-pytest>=8.0
-streamlit>=1.40
-fastapi
-uvicorn
-python-multipart
+pydantic>=2.7.0
+pypdf>=4.0.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+python-multipart>=0.0.9
+pytest>=8.0.0
