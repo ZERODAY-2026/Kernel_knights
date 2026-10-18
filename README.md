@@ -39,3 +39,53 @@ Ordinary citizens frequently sign rental agreements, employment contracts, and s
 +-------------------------------------------------------------------------+
            X  (Firewall / Wi-Fi Disabled: Zero External Calls)
            X  (Streamlit Telemetry Disabled via .streamlit/config.toml)
+```
+
+---
+
+## 🚀 Setup & Reproduction Instructions
+
+### Prerequisites
+* Python 3.10+
+* [Ollama](https://ollama.com/) installed and running locally
+
+### Installation Steps
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ZERODAY-2026/Kernel_knights.git
+   cd Kernel_knights
+   ```
+2. **Download the local edge model:**
+   ```bash
+   ollama run gemma4:e4b
+   ```
+3. **Create and activate a virtual environment:**
+   * **Windows:**
+     ```bash
+     python -m venv venv
+     venv\Scripts\activate
+     ```
+   * **Mac / Linux:**
+     ```bash
+     python3 -m venv venv
+     source venv/bin/activate
+     ```
+4. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Running the Application
+1. Ensure Ollama is active locally (`http://localhost:11434`).
+2. Start the Streamlit application:
+   ```bash
+   streamlit run app.py
+   ```
+3. Access the dashboard in your browser at `http://localhost:8501`.
+
+---
+
+## 🛡️ Guardrails & Limitations
+* **Verifiable Quotations:** Every quoted clause is verified directly against extracted source text to eliminate hallucination.
+* **Separation of Concerns:** Clearly distinguishes explicit contract statements from risk warnings and ambiguity notices.
+* **Lawyer Escalation:** Prominently flags high-risk penalties or ambiguous terms requiring formal legal consultation.
