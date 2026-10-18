@@ -33,7 +33,7 @@ Ordinary citizens frequently sign rental agreements, employment contracts, and s
 |  +-----------------------+     +-------------------------------------+  |
 |  | Streamlit Local UI    |<--->| Local Gemma Inference Server        |  |
 |  | (localhost:8501)      |     | Ollama (http://localhost:11434)     |  |
-|  | - Fact vs Risk Split  |     | Model: gemma4:e4b / gemma3n:e4b     |  |
+|  | - Fact vs Risk Split  |     | Model: gemma4:e4b                   |  |
 |  | - Quote Highlighting  |     | Structured JSON + Citation Grounding|  |
 |  +-----------------------+     +-------------------------------------+  |
 +-------------------------------------------------------------------------+
