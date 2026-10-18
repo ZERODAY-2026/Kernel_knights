@@ -118,7 +118,7 @@ flowchart TD
 
 ## 5. Privacy and On-Device Guarantee
 
-- **Localhost Execution**: All inference and web traffic is restricted to loopback addresses (`127.0.0.1:8000` and `127.0.0.1:11434`).
+- **Localhost Execution**: All inference and web traffic is restricted to loopback addresses (`127.0.0.1:8000`) and to verify whether the Gemma 4 is running (`127.0.0.1:11434`).
 - **Network Footprint**: Zero external outbound requests occur during application runtime. Setup-time package downloads (`pip`) and model pulls (`ollama pull`) are the sole internet actions.
 - **Browser Protection**: FastAPI injects a strict `Content-Security-Policy` header:
   ```http
